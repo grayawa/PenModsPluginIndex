@@ -101,7 +101,7 @@ body {
 
 .hero {
   position: sticky;
-  top: 0.75rem;
+  top: 0;
   z-index: 20;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
@@ -111,18 +111,19 @@ body {
   padding: 2.2rem 2.4rem;
   transform-origin: top left;
   transition:
-    transform 260ms ease,
+    box-shadow 260ms ease,
+    gap 260ms ease,
     padding 260ms ease,
     grid-template-columns 260ms ease,
     background-color 260ms ease;
 }
 
 .hero.is-compact {
-  grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1fr);
-  padding: 0.85rem 1rem;
-  transform: scale(0.82);
-  width: 68%;
-  min-width: min(42rem, 100%);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.62rem 0.85rem;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.16);
 }
 
 .eyebrow {
@@ -144,8 +145,9 @@ body {
 }
 
 .hero.is-compact h1 {
-  font-size: clamp(1.5rem, 3.2vw, 2.3rem);
+  font-size: clamp(1.25rem, 2.4vw, 1.65rem);
   letter-spacing: -0.05em;
+  white-space: nowrap;
 }
 
 .hero-subtitle {
@@ -166,10 +168,36 @@ body {
   transform: translateY(-0.5rem);
 }
 
+.hero.is-compact > div:first-child {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+
+.hero.is-compact .eyebrow {
+  margin: 0;
+  font-size: 0.65rem;
+  letter-spacing: 0.13em;
+  white-space: nowrap;
+}
+
 .hero-side {
   display: grid;
   gap: 1.1rem;
   justify-items: start;
+}
+
+.hero.is-compact .hero-side {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  justify-content: end;
+}
+
+.hero.is-compact .theme-toggle {
+  width: 2rem;
+  height: 2rem;
 }
 
 .theme-toggle {
@@ -221,6 +249,12 @@ body {
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.hero.is-compact .hero-stats {
+  flex-wrap: nowrap;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .stat-count,
@@ -541,11 +575,6 @@ body {
     position: static;
     grid-template-columns: 1fr;
     align-items: start;
-  }
-
-  .hero.is-compact {
-    width: auto;
-    transform: none;
   }
 
   .theme-toggle {
