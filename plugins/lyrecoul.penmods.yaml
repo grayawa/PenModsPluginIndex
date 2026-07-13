@@ -7,12 +7,11 @@ summary: PenMods core runtime, updater, and plugin host.
 description: |
   PenMods is the core project that provides the runtime, updater, and plugin
   loading foundation for the broader PenMods ecosystem.
-icon: https://raw.githubusercontent.com/Lyrecoul/PenMods/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp
 repo_url: https://github.com/Lyrecoul/PenMods
 homepage: https://github.com/Lyrecoul/PenMods
 download_url: https://github.com/Lyrecoul/PenMods/releases/latest
 releases_url: https://github.com/Lyrecoul/PenMods/releases
-version: main
+version: vmain
 license: GPL-3.0
 source_available: true
 visibility: public
@@ -31,60 +30,57 @@ tags:
   - runtime
   - updater
 compatibility:
-  capabilities:
-    optional:
-      - capability:network.fetch
   capability_history:
     - capability: capability:ota.mod-update
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #32"
     - capability: capability:runtime.external-resource
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #32"
     - capability: capability:plugin-loader
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #32"
     - capability: capability:plugin.qml
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #32"
     - capability: capability:plugin.engine-attach
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #32"
     - capability: capability:plugin.hook-api
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #33"
     - capability: capability:ui.plugin-entry
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #36"
     - capability: capability:file-manager
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #42"
     - capability: capability:audio.daemon
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #44"
     - capability: capability:tts
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #45"
     - capability: capability:shell.execute
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #46"
     - capability: capability:shell.execute-async
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #60"
     - capability: capability:screen.audio-wakelock
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #55"
     - capability: capability:chatbot.tool.tavily
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #54"
     - capability: capability:math.render
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #58"
     - capability: capability:camera.capture
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #64"
     - capability: capability:chatbot.vision-proxy
-      since_version: main
+      since_version: vmain
       since_ci_version: "Build PenMods #64"
 provides:
   - capability:audio.daemon
@@ -93,7 +89,6 @@ provides:
   - capability:chatbot.vision-proxy
   - capability:file-manager
   - capability:math.render
-  - capability:network.fetch
   - capability:ota.mod-update
   - capability:runtime
   - capability:runtime.external-resource

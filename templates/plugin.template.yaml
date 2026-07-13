@@ -6,6 +6,7 @@ category: utility
 summary: One-line summary of what the plugin does.
 description: |
   Longer description for the plugin detail page.
+# Optional. Omit this when the project does not have a real icon.
 icon: https://example.com/icon.png
 repo_url: https://github.com/your-org/your-plugin
 homepage: https://example.com/your-plugin
@@ -30,7 +31,6 @@ tags:
 screenshots:
   - https://example.com/screenshot-1.png
 compatibility:
-  penmods: ">=1.0.0"
   capabilities:
     requires:
       - capability:ui.panel
@@ -38,7 +38,7 @@ compatibility:
     conflicts:
       - capability:runtime.legacy-hooks
     optional:
-      - capability:network.fetch
+      - capability:settings
   capability_history:
     - capability: capability:panel.example
       since_version: "1.0.0"

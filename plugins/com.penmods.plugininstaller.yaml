@@ -9,17 +9,17 @@ description: |
   按原生插件 id 跟踪已安装条目，并将插件安装到
   /userdisk/PenMods/plugins 目录。
 icon: https://raw.githubusercontent.com/github/explore/main/topics/sqlite/sqlite.png
-repo_url: https://github.com/penmods/plugin-installer
-homepage: https://github.com/penmods/plugin-installer
-download_url: https://github.com/penmods/plugin-installer/releases/latest
-releases_url: https://github.com/penmods/plugin-installer/releases
+repo_url: https://github.com/grayawa/PenModsPluginInstaller
+homepage: https://github.com/grayawa/PenModsPluginInstaller
+download_url: https://github.com/grayawa/PenModsPluginInstaller/releases/latest
+releases_url: https://github.com/grayawa/PenModsPluginInstaller/releases
 version: 0.1.0
 license: MIT
 source_available: true
 visibility: public
 distribution:
   type: github-release
-  url: https://github.com/penmods/plugin-installer/releases/latest
+  url: https://github.com/grayawa/PenModsPluginInstaller/releases/latest
   notes: Installer plugin release channel.
 verified: false
 tags:
@@ -27,11 +27,9 @@ tags:
   - registry
   - utility
 compatibility:
-  penmods: ">=1.0.0"
   capabilities:
     requires:
       - capability:plugin-loader
-      - capability:network.fetch
     optional:
       - capability:settings
 provides:
@@ -43,5 +41,4 @@ dependencies:
     - id: lyrecoul.penmods
       capabilities:
         - capability:plugin-loader
-        - capability:network.fetch
       reason: Requires the PenMods runtime and plugin loading environment.
