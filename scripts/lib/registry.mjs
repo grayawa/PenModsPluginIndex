@@ -6,8 +6,8 @@ import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
-const pluginsDir = path.join(rootDir, "plugins");
-const schemaPath = path.join(rootDir, "schema", "plugin.schema.json");
+const pluginsDir = path.resolve(process.env.REGISTRY_PLUGINS_DIR ?? path.join(rootDir, "plugins"));
+const schemaPath = path.resolve(process.env.REGISTRY_SCHEMA_PATH ?? path.join(rootDir, "schema", "plugin.schema.json"));
 
 function byId(a, b) {
   return a.id.localeCompare(b.id);

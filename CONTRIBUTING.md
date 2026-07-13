@@ -5,7 +5,7 @@
 1. Copy `templates/plugin.template.yaml`.
 2. Fill in the metadata fields.
 3. Save it as `plugins/<plugin-id>.yaml`.
-4. Open a pull request.
+4. Open a pull request targeting the `registry` branch.
 
 ## Rules
 
@@ -80,7 +80,7 @@ Suggested meaning:
 
 ## Validation
 
-Every pull request is automatically validated. Common failures:
+Every pull request to `registry` is automatically validated. Common failures:
 
 - invalid YAML syntax
 - missing required fields

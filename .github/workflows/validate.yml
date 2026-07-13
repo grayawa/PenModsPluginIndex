@@ -2,6 +2,8 @@ name: Validate Registry
 
 on:
   pull_request:
+    branches:
+      - registry
   workflow_dispatch:
 
 jobs:
@@ -10,6 +12,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Checkout registry data
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || 'registry' }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          path: .registry
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -22,4 +31,5 @@ jobs:
 
       - name: Validate registry
         run: npm run validate
-
+        env:
+          REGISTRY_PLUGINS_DIR: .registry/plugins

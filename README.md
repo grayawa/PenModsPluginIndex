@@ -10,7 +10,8 @@ https://github.com/grayawa/PenModsPluginInstaller
 
 ## How it works
 
-- Developers submit a pull request with a plugin metadata file in `plugins/`.
+- Developers submit a pull request to the `registry` branch with a plugin
+  metadata file in `plugins/`.
 - GitHub Actions validates all YAML entries against the registry schema.
 - The build step aggregates plugin metadata into machine-readable JSON files.
 - GitHub Pages serves a searchable static site from the generated output.
@@ -31,17 +32,21 @@ Generated artifacts:
 
 ## Deployment model
 
-This repository keeps source data, build scripts, and static site code together on `main`.
+This repository separates site code from registry data.
 
-- `plugins/`, `schema/`, `scripts/`, and `site/` are the editable source of truth.
-- GitHub Actions validates the registry and builds a static `dist/` output.
+- `main` contains the static website, schema, and build scripts.
+- `registry` contains the community-maintained `plugins/` metadata files.
+- GitHub Actions checks out both branches and builds a static `dist/` output.
 - GitHub Pages deploys the generated artifact directly from Actions.
 
-This keeps the project simple while still separating source files from published output. If the registry later becomes a standalone shared data source, it can be split out without changing the metadata format.
+This keeps plugin submissions away from website code while still deploying one
+static site.
 
 ## Registry design
 
-Each project is declared in its own YAML file under `plugins/`. The canonical schema lives in `schema/plugin.schema.json`.
+Each project is declared in its own YAML file under `plugins/` on the
+`registry` branch. The canonical schema lives in `schema/plugin.schema.json` on
+`main`.
 
 Compatibility supports both version gates and capability declarations:
 
@@ -85,4 +90,5 @@ Closed-source or restricted-distribution projects can still be indexed. Use `sou
 
 ## Contributing
 
-See `CONTRIBUTING.md` and copy `templates/plugin.template.yaml` when submitting a new plugin.
+See `CONTRIBUTING.md` and copy `templates/plugin.template.yaml` when submitting
+a new plugin to the `registry` branch.
