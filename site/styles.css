@@ -122,6 +122,8 @@ body {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1rem;
   align-items: center;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   padding: 0.62rem 0.85rem;
   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.16);
 }

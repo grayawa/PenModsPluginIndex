@@ -445,8 +445,27 @@ async function loadData() {
 elements.searchInput.addEventListener("input", filterPlugins);
 elements.categoryFilter.addEventListener("change", filterPlugins);
 elements.themeToggle.addEventListener("click", toggleTheme);
+
+let heroCompact = false;
+let heroScrollFrame = null;
+
+function updateHeroCompact() {
+  heroScrollFrame = null;
+  const shouldCompact = heroCompact ? window.scrollY > 48 : window.scrollY > 120;
+
+  if (shouldCompact === heroCompact) {
+    return;
+  }
+
+  heroCompact = shouldCompact;
+  elements.hero.classList.toggle("is-compact", heroCompact);
+}
+
 window.addEventListener("scroll", () => {
-  elements.hero.classList.toggle("is-compact", window.scrollY > 80);
+  if (heroScrollFrame !== null) {
+    return;
+  }
+  heroScrollFrame = requestAnimationFrame(updateHeroCompact);
 }, { passive: true });
 window.addEventListener("hashchange", () => {
   state.selectedId = window.location.hash.replace(/^#/, "");
