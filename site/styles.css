@@ -242,8 +242,8 @@ body {
 
 .controls {
   display: grid;
-  grid-template-columns: 1fr minmax(11rem, 15rem) minmax(18rem, 0.8fr);
-  gap: 1rem;
+  grid-template-columns: minmax(18rem, 1fr) minmax(11rem, 15rem);
+  gap: 0.95rem 1rem;
   margin: 1.4rem 0;
   border-radius: var(--radius-lg);
   padding: 1rem;
@@ -267,6 +267,10 @@ body {
   padding: 0;
 }
 
+.tag-filter {
+  grid-column: 1 / -1;
+}
+
 .controls input,
 .controls select {
   width: 100%;
@@ -281,9 +285,8 @@ body {
 .tag-picker {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  max-height: 3.3rem;
-  overflow: auto;
+  gap: 0.38rem;
+  align-items: center;
 }
 
 .tag-option {
@@ -293,8 +296,9 @@ body {
   color: var(--muted);
   cursor: pointer;
   font: inherit;
-  font-size: 0.82rem;
-  padding: 0.42rem 0.62rem;
+  font-size: 0.78rem;
+  line-height: 1;
+  padding: 0.5rem 0.68rem;
   transition:
     transform 140ms ease,
     border-color 140ms ease,
