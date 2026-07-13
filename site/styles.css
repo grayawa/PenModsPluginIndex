@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  --bg: #f5f1e8;
+  --bg: #f3efe6;
   --panel: rgba(255, 252, 247, 0.82);
   --panel-strong: #fff9ef;
   --line: rgba(72, 57, 34, 0.12);
@@ -12,8 +12,8 @@
   --radius-xl: 28px;
   --radius-lg: 18px;
   --radius-md: 12px;
-  --max-width: 1240px;
-  font-family: "Segoe UI", "Noto Sans", sans-serif;
+  --max-width: 1180px;
+  font-family: "Trebuchet MS", "Noto Sans SC", "Microsoft YaHei UI", sans-serif;
 }
 
 * {
@@ -55,7 +55,7 @@ body {
 .layout {
   width: min(calc(100% - 2rem), var(--max-width));
   margin: 0 auto;
-  padding: 3rem 0 4rem;
+  padding: 2rem 0 4rem;
 }
 
 .hero,
@@ -69,8 +69,12 @@ body {
 }
 
 .hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
+  gap: 2rem;
+  align-items: end;
   border-radius: var(--radius-xl);
-  padding: 2.5rem;
+  padding: 2.2rem 2.4rem;
 }
 
 .eyebrow {
@@ -84,13 +88,29 @@ body {
 
 .hero h1 {
   margin: 0;
-  max-width: 12ch;
-  font-size: clamp(2.6rem, 5vw, 4.6rem);
-  line-height: 0.94;
+  font-size: clamp(2.7rem, 6vw, 5rem);
+  line-height: 0.96;
+  letter-spacing: -0.08em;
+  text-wrap: balance;
+}
+
+.hero-subtitle {
+  margin: 0.7rem 0 0;
+  max-width: 20rem;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.55;
+}
+
+.hero-side {
+  display: grid;
+  gap: 1.1rem;
+  justify-items: start;
 }
 
 .hero-copy {
-  max-width: 46rem;
+  margin: 0;
+  max-width: 42rem;
   color: var(--muted);
   font-size: 1.02rem;
   line-height: 1.7;
@@ -100,7 +120,7 @@ body {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
-  margin-top: 1.4rem;
+  margin-top: 0;
 }
 
 .stat-pill,
@@ -114,7 +134,7 @@ body {
 }
 
 .stat-pill {
-  padding: 0.7rem 0.95rem;
+  padding: 0.6rem 0.86rem;
   background: rgba(255, 248, 234, 0.85);
   font-weight: 600;
 }
