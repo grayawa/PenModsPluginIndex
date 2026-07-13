@@ -27,6 +27,8 @@ const distributionLabels = {
 
 const elements = {
   stats: document.querySelector("#stats"),
+  themeToggle: document.querySelector("#themeToggle"),
+  themeToggleText: document.querySelector("#themeToggleText"),
   searchInput: document.querySelector("#searchInput"),
   categoryFilter: document.querySelector("#categoryFilter"),
   tagFilter: document.querySelector("#tagFilter"),
@@ -48,6 +50,23 @@ function getCategoryLabel(category) {
 
 function getDistributionLabel(type) {
   return distributionLabels[type] ?? type;
+}
+
+function currentTheme() {
+  return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+}
+
+function updateThemeToggle() {
+  const theme = currentTheme();
+  elements.themeToggleText.textContent = theme === "dark" ? "亮色" : "暗色";
+  elements.themeToggle.setAttribute("aria-label", `切换到${theme === "dark" ? "亮色" : "暗色"}模式`);
+}
+
+function toggleTheme() {
+  const nextTheme = currentTheme() === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = nextTheme;
+  localStorage.setItem("theme", nextTheme);
+  updateThemeToggle();
 }
 
 function renderStats(stats) {
@@ -395,12 +414,14 @@ async function loadData() {
 elements.searchInput.addEventListener("input", filterPlugins);
 elements.categoryFilter.addEventListener("change", filterPlugins);
 elements.tagFilter.addEventListener("change", filterPlugins);
+elements.themeToggle.addEventListener("click", toggleTheme);
 window.addEventListener("hashchange", () => {
   state.selectedId = window.location.hash.replace(/^#/, "");
   renderPluginList();
   renderPluginDetail();
 });
 
+updateThemeToggle();
 loadData().catch((error) => {
   elements.pluginList.innerHTML = `<div class="empty-state">加载索引数据失败：${escapeHtml(
     error.message

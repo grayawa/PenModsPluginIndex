@@ -8,6 +8,13 @@
       name="description"
       content="PenMods 社区维护的插件索引站。"
     />
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+      })();
+    </script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -21,6 +28,10 @@
           <p class="hero-subtitle">给 PenMods 生态用的静态插件目录。</p>
         </div>
         <div class="hero-side">
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换暗色模式">
+            <span class="theme-toggle-icon" aria-hidden="true"></span>
+            <span id="themeToggleText">切换主题</span>
+          </button>
           <p class="hero-copy">
             浏览社区插件，查看分类、兼容性与功能声明，找到适合当前
             PenMods 环境的扩展。
