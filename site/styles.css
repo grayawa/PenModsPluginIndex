@@ -198,6 +198,12 @@ body {
   border-color: var(--accent);
 }
 
+.theme-toggle img {
+  width: 1.18rem;
+  height: 1.18rem;
+  display: block;
+}
+
 .hero-copy {
   margin: 0;
   max-width: 42rem;

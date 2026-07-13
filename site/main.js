@@ -30,7 +30,7 @@ const elements = {
   hero: document.querySelector("#hero"),
   stats: document.querySelector("#stats"),
   themeToggle: document.querySelector("#themeToggle"),
-  themeToggleText: document.querySelector("#themeToggleText"),
+  themeToggleIcon: document.querySelector("#themeToggleIcon"),
   searchInput: document.querySelector("#searchInput"),
   categoryFilter: document.querySelector("#categoryFilter"),
   tagFilter: document.querySelector("#tagFilter"),
@@ -60,8 +60,12 @@ function currentTheme() {
 
 function updateThemeToggle() {
   const theme = currentTheme();
-  elements.themeToggleText.textContent = theme === "dark" ? "亮" : "暗";
+  const nextThemeLabel = theme === "dark" ? "亮色" : "暗色";
+  const iconName = theme === "dark" ? "sun" : "moon";
+  const iconColor = theme === "dark" ? "%23f4eadb" : "%2324180d";
+  elements.themeToggleIcon.src = `https://api.iconify.design/lucide:${iconName}.svg?color=${iconColor}`;
   elements.themeToggle.setAttribute("aria-label", `切换到${theme === "dark" ? "亮色" : "暗色"}模式`);
+  elements.themeToggle.title = `切换到${nextThemeLabel}模式`;
 }
 
 function toggleTheme() {
