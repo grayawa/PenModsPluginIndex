@@ -28,9 +28,11 @@ const distributionLabels = {
 
 const elements = {
   hero: document.querySelector("#hero"),
+  topBar: document.querySelector("#topBar"),
   stats: document.querySelector("#stats"),
-  themeToggle: document.querySelector("#themeToggle"),
-  themeToggleIcon: document.querySelector("#themeToggleIcon"),
+  topBarStats: document.querySelector("#topBarStats"),
+  themeToggles: document.querySelectorAll(".theme-toggle"),
+  themeToggleIcons: document.querySelectorAll(".theme-toggle-icon"),
   searchInput: document.querySelector("#searchInput"),
   categoryFilter: document.querySelector("#categoryFilter"),
   tagFilter: document.querySelector("#tagFilter"),
@@ -63,9 +65,13 @@ function updateThemeToggle() {
   const nextThemeLabel = theme === "dark" ? "亮色" : "暗色";
   const iconName = theme === "dark" ? "sun" : "moon";
   const iconColor = theme === "dark" ? "%23f4f4f4" : "%23161616";
-  elements.themeToggleIcon.src = `https://api.iconify.design/lucide:${iconName}.svg?color=${iconColor}`;
-  elements.themeToggle.setAttribute("aria-label", `切换到${theme === "dark" ? "亮色" : "暗色"}模式`);
-  elements.themeToggle.title = `切换到${nextThemeLabel}模式`;
+  for (const icon of elements.themeToggleIcons) {
+    icon.src = `https://api.iconify.design/lucide:${iconName}.svg?color=${iconColor}`;
+  }
+  for (const toggle of elements.themeToggles) {
+    toggle.setAttribute("aria-label", `切换到${theme === "dark" ? "亮色" : "暗色"}模式`);
+    toggle.title = `切换到${nextThemeLabel}模式`;
+  }
 }
 
 function toggleTheme() {
@@ -76,7 +82,9 @@ function toggleTheme() {
 }
 
 function renderStats(stats) {
-  elements.stats.innerHTML = `<span class="stat-count">${escapeHtml(String(stats.plugin_count))}</span><span>plugins indexed</span>`;
+  const statsHtml = `<span class="stat-count">${escapeHtml(String(stats.plugin_count))}</span><span>plugins indexed</span>`;
+  elements.stats.innerHTML = statsHtml;
+  elements.topBarStats.innerHTML = statsHtml;
 }
 
 function buildTagOptions() {
@@ -444,28 +452,31 @@ async function loadData() {
 
 elements.searchInput.addEventListener("input", filterPlugins);
 elements.categoryFilter.addEventListener("change", filterPlugins);
-elements.themeToggle.addEventListener("click", toggleTheme);
+for (const toggle of elements.themeToggles) {
+  toggle.addEventListener("click", toggleTheme);
+}
 
-let heroCompact = false;
-let heroScrollFrame = null;
+let topBarVisible = false;
+let topBarScrollFrame = null;
 
-function updateHeroCompact() {
-  heroScrollFrame = null;
-  const shouldCompact = heroCompact ? window.scrollY > 48 : window.scrollY > 120;
+function updateTopBar() {
+  topBarScrollFrame = null;
+  const shouldShow = topBarVisible ? window.scrollY > 72 : window.scrollY > 160;
 
-  if (shouldCompact === heroCompact) {
+  if (shouldShow === topBarVisible) {
     return;
   }
 
-  heroCompact = shouldCompact;
-  elements.hero.classList.toggle("is-compact", heroCompact);
+  topBarVisible = shouldShow;
+  elements.topBar.classList.toggle("is-visible", topBarVisible);
+  elements.topBar.setAttribute("aria-hidden", String(!topBarVisible));
 }
 
 window.addEventListener("scroll", () => {
-  if (heroScrollFrame !== null) {
+  if (topBarScrollFrame !== null) {
     return;
   }
-  heroScrollFrame = requestAnimationFrame(updateHeroCompact);
+  topBarScrollFrame = requestAnimationFrame(updateTopBar);
 }, { passive: true });
 window.addEventListener("hashchange", () => {
   state.selectedId = window.location.hash.replace(/^#/, "");

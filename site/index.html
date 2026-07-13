@@ -20,6 +20,18 @@
   <body>
     <div class="background-glow background-glow-a"></div>
     <div class="background-glow background-glow-b"></div>
+    <header class="topbar" id="topBar" aria-hidden="true">
+      <div class="topbar-brand">
+        <span class="topbar-eyebrow">PenMods Plugin Index</span>
+        <strong>插件索引</strong>
+      </div>
+      <div class="topbar-side">
+        <div class="hero-stats topbar-stats" id="topBarStats"></div>
+        <button class="theme-toggle" type="button" aria-label="切换暗色模式">
+          <img class="theme-toggle-icon" alt="" aria-hidden="true" />
+        </button>
+      </div>
+    </header>
     <main class="layout">
       <section class="hero" id="hero">
         <div>
@@ -29,7 +41,7 @@
         </div>
         <div class="hero-side">
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换暗色模式">
-            <img id="themeToggleIcon" alt="" aria-hidden="true" />
+            <img class="theme-toggle-icon" alt="" aria-hidden="true" />
           </button>
           <p class="hero-copy">
             浏览社区插件，查看分类、兼容性与功能声明，找到适合当前
