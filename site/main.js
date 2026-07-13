@@ -62,7 +62,7 @@ function updateThemeToggle() {
   const theme = currentTheme();
   const nextThemeLabel = theme === "dark" ? "亮色" : "暗色";
   const iconName = theme === "dark" ? "sun" : "moon";
-  const iconColor = theme === "dark" ? "%23f4eadb" : "%2324180d";
+  const iconColor = theme === "dark" ? "%23f4f4f4" : "%23161616";
   elements.themeToggleIcon.src = `https://api.iconify.design/lucide:${iconName}.svg?color=${iconColor}`;
   elements.themeToggle.setAttribute("aria-label", `切换到${theme === "dark" ? "亮色" : "暗色"}模式`);
   elements.themeToggle.title = `切换到${nextThemeLabel}模式`;
