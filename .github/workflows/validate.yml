@@ -2,24 +2,37 @@ name: Validate Registry
 
 on:
   pull_request:
+    branches:
+      - registry
   workflow_dispatch:
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout registry data
         uses: actions/checkout@v4
+
+      - name: Checkout site tooling
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .site
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: .site/package-lock.json
 
       - name: Install dependencies
         run: npm install
+        working-directory: .site
 
       - name: Validate registry
         run: npm run validate
+        working-directory: .site
+        env:
+          REGISTRY_PLUGINS_DIR: ../plugins
 

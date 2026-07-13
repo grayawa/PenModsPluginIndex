@@ -1,88 +1,26 @@
-# PenMods Plugin Index
+# PenMods Plugin Index Registry
 
-Community-maintained plugin index for PenMods.
+This branch stores community-maintained plugin metadata for PenMods Plugin Index.
 
-## Repository scope
+Website source, schema validation code, and GitHub Pages deployment live on the
+`main` branch. Pull requests that add or update plugins should target this
+`registry` branch.
 
-This repository only contains the registry/index source and the static website.
-The PenMods installer plugin lives in a separate repository:
-https://github.com/grayawa/PenModsPluginInstaller
+## Add or Update a Plugin
 
-## How it works
+1. Copy `templates/plugin.template.yaml`.
+2. Fill in the metadata fields.
+3. Save it as `plugins/<plugin-id>.yaml`.
+4. Open a pull request targeting `registry`.
 
-- Developers submit a pull request with a plugin metadata file in `plugins/`.
-- GitHub Actions validates all YAML entries against the registry schema.
-- The build step aggregates plugin metadata into machine-readable JSON files.
-- GitHub Pages serves a searchable static site from the generated output.
+Each YAML file is validated by GitHub Actions using the schema and scripts from
+`main`.
 
-## Local development
+## Files Kept Here
 
-```bash
-npm install
-npm run validate
-npm run build
-```
+- `plugins/`: plugin metadata entries.
+- `templates/`: copyable metadata templates.
+- `CONTRIBUTING.md`: contribution rules for registry entries.
 
-Generated artifacts:
-
-- `dist/data/plugins.json`: complete registry payload
-- `dist/data/index.json`: lightweight listing for the website
-- `dist/data/stats.json`: aggregate stats
-
-## Deployment model
-
-This repository keeps source data, build scripts, and static site code together on `main`.
-
-- `plugins/`, `schema/`, `scripts/`, and `site/` are the editable source of truth.
-- GitHub Actions validates the registry and builds a static `dist/` output.
-- GitHub Pages deploys the generated artifact directly from Actions.
-
-This keeps the project simple while still separating source files from published output. If the registry later becomes a standalone shared data source, it can be split out without changing the metadata format.
-
-## Registry design
-
-Each project is declared in its own YAML file under `plugins/`. The canonical schema lives in `schema/plugin.schema.json`.
-
-Compatibility supports both version gates and capability declarations:
-
-```yaml
-compatibility:
-  penmods: ">=1.3.0"
-  capabilities:
-    requires:
-      - capability:editor.commands
-    conflicts:
-      - capability:runtime.legacy-hooks
-    optional:
-      - capability:network.fetch
-```
-
-Projects may also declare capabilities they provide to the ecosystem:
-
-```yaml
-provides:
-  - capability:panel.git-tools
-  - capability:export.markdown
-```
-
-Plugin-to-plugin relationships can be categorized too:
-
-```yaml
-dependencies:
-  required:
-    - id: penmods.core-ui
-  optional:
-    - id: penmods.theme-hooks
-  peer:
-    - id: penmods.git-core
-  incompatible:
-    - id: penmods.legacy-panel
-```
-
-Use `kind` for project type, `category` for one stable primary bucket, and `tags` for flexible discovery metadata.
-When a real plugin package already has a native `metadata.json`, prefer using that package `id` as the registry `id`.
-Closed-source or restricted-distribution projects can still be indexed. Use `source_available`, `visibility`, and `distribution` to describe how users obtain them.
-
-## Contributing
-
-See `CONTRIBUTING.md` and copy `templates/plugin.template.yaml` when submitting a new plugin.
+Do not add website code, generated JSON, build output, or deployment files to
+this branch.

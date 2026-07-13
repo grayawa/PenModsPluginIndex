@@ -5,14 +5,14 @@
 1. Copy `templates/plugin.template.yaml`.
 2. Fill in the metadata fields.
 3. Save it as `plugins/<plugin-id>.yaml`.
-4. Open a pull request.
+4. Open a pull request targeting the `registry` branch.
 
 ## Rules
 
 - `id` must be globally unique and stable. If the plugin package already has a native `metadata.json`, use its `id` here too.
 - `kind` should be `core` for PenMods itself or `plugin` for add-ons.
 - `download_url` should point to a real downloadable artifact or release asset.
-- `icon` should be a stable image URL.
+- `icon` should be a stable image URL when the project has a real icon. Omit it when there is no icon.
 - `category` should be the best primary bucket for the plugin.
 - `tags` should use lowercase dot or dash separated names.
 - `provides` and compatibility declarations should use `capability:<name>` values.
@@ -26,7 +26,6 @@ Use capability declarations to describe host capabilities instead of encoding ev
 
 ```yaml
 compatibility:
-  penmods: ">=1.2.0"
   capabilities:
     requires:
       - capability:ui.panel
@@ -34,7 +33,7 @@ compatibility:
     conflicts:
       - capability:runtime.legacy-hooks
     optional:
-      - capability:network.fetch
+      - capability:settings
 ```
 
 If your project exposes reusable capabilities, list them in `provides`.
@@ -87,3 +86,6 @@ Every pull request is automatically validated. Common failures:
 - duplicated plugin `id`
 - malformed URLs
 - conflicting capability declarations
+
+Validation uses the schema and scripts from the `main` branch. The `registry`
+branch intentionally does not contain website source or build scripts.
