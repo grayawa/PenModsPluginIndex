@@ -2,6 +2,7 @@ const state = {
   fullPlugins: [],
   listPlugins: [],
   filteredPlugins: [],
+  selectedTags: new Set(),
   selectedId: null
 };
 
@@ -26,6 +27,7 @@ const distributionLabels = {
 };
 
 const elements = {
+  hero: document.querySelector("#hero"),
   stats: document.querySelector("#stats"),
   themeToggle: document.querySelector("#themeToggle"),
   themeToggleText: document.querySelector("#themeToggleText"),
@@ -58,7 +60,7 @@ function currentTheme() {
 
 function updateThemeToggle() {
   const theme = currentTheme();
-  elements.themeToggleText.textContent = theme === "dark" ? "亮色" : "暗色";
+  elements.themeToggleText.textContent = theme === "dark" ? "亮" : "暗";
   elements.themeToggle.setAttribute("aria-label", `切换到${theme === "dark" ? "亮色" : "暗色"}模式`);
 }
 
@@ -70,17 +72,7 @@ function toggleTheme() {
 }
 
 function renderStats(stats) {
-  const items = [
-    `${stats.plugin_count} 个插件`,
-    `${stats.author_count} 位作者`,
-    `${stats.category_count} 个分类`,
-    `${stats.tag_count} 个标签`,
-    `${stats.capability_count} 项能力声明`
-  ];
-
-  elements.stats.innerHTML = items
-    .map((item) => `<span class="stat-pill">${escapeHtml(item)}</span>`)
-    .join("");
+  elements.stats.innerHTML = `<span class="stat-count">${escapeHtml(String(stats.plugin_count))}</span><span>plugins indexed</span>`;
 }
 
 function buildTagOptions() {
@@ -89,10 +81,21 @@ function buildTagOptions() {
   );
 
   for (const tag of tags) {
-    const option = document.createElement("option");
-    option.value = tag;
-    option.textContent = tag;
-    elements.tagFilter.append(option);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "tag-option";
+    button.textContent = tag;
+    button.dataset.tag = tag;
+    button.addEventListener("click", () => {
+      if (state.selectedTags.has(tag)) {
+        state.selectedTags.delete(tag);
+      } else {
+        state.selectedTags.add(tag);
+      }
+      button.classList.toggle("is-selected", state.selectedTags.has(tag));
+      filterPlugins();
+    });
+    elements.tagFilter.append(button);
   }
 }
 
@@ -132,11 +135,11 @@ function matchesQuery(plugin, query) {
 function filterPlugins() {
   const query = elements.searchInput.value.trim().toLowerCase();
   const category = elements.categoryFilter.value;
-  const tag = elements.tagFilter.value;
+  const tags = [...state.selectedTags];
 
   state.filteredPlugins = state.listPlugins.filter((plugin) => {
     const categoryMatch = !category || plugin.category === category;
-    const tagMatch = !tag || plugin.tags.includes(tag);
+    const tagMatch = tags.length === 0 || tags.every((tag) => plugin.tags.includes(tag));
     return categoryMatch && tagMatch && matchesQuery(plugin, query);
   });
 
@@ -171,8 +174,7 @@ function renderPluginList() {
     const tagRow = fragment.querySelector(".tag-row");
 
     title.textContent = plugin.name;
-    icon.src = plugin.icon;
-    icon.alt = `${plugin.name} icon`;
+    renderIcon(icon, plugin);
     version.textContent = plugin.version;
     summary.textContent = plugin.summary;
     meta.textContent = `${plugin.author} · ${plugin.penmods ? `PenMods ${plugin.penmods}` : "未声明版本门槛"}`;
@@ -217,6 +219,29 @@ function renderPluginList() {
 
     elements.pluginList.append(fragment);
   }
+}
+
+function renderIcon(element, plugin) {
+  if (plugin.icon) {
+    element.src = plugin.icon;
+    element.alt = `${plugin.name} icon`;
+    element.hidden = false;
+    return;
+  }
+
+  const placeholder = document.createElement("div");
+  placeholder.className = element.className;
+  placeholder.classList.add("icon-placeholder");
+  placeholder.textContent = plugin.name.slice(0, 2);
+  element.replaceWith(placeholder);
+}
+
+function formatPenModsCompatibility(value) {
+  return value ? `PenMods ${value}` : "未声明 PenMods 版本门槛";
+}
+
+function formatVersion(version) {
+  return version.startsWith("v") ? version : `v${version}`;
 }
 
 function renderCapabilityGroup(title, capabilities) {
@@ -310,10 +335,12 @@ function renderPluginDetail() {
 
   elements.pluginDetail.innerHTML = `
     <div class="detail-head">
-      <img class="detail-icon" src="${escapeHtml(plugin.icon)}" alt="${escapeHtml(plugin.name)} icon" />
+      ${plugin.icon
+        ? `<img class="detail-icon" src="${escapeHtml(plugin.icon)}" alt="${escapeHtml(plugin.name)} icon" />`
+        : `<div class="detail-icon icon-placeholder">${escapeHtml(plugin.name.slice(0, 2))}</div>`}
       <div>
         <h2>${escapeHtml(plugin.name)}</h2>
-        <p class="detail-subtitle">${escapeHtml(plugin.author)} · v${escapeHtml(plugin.version)}</p>
+        <p class="detail-subtitle">${escapeHtml(plugin.author)} · ${escapeHtml(formatVersion(plugin.version))}</p>
         <div class="detail-tags">
           <span class="chip">${plugin.kind === "core" ? "核心项目" : "插件"}</span>
           ${plugin.tags.map((tag) => `<span class="chip">${escapeHtml(tag)}</span>`).join("")}
@@ -332,7 +359,7 @@ function renderPluginDetail() {
     <section class="detail-section">
       <h3>兼容性</h3>
       <div class="detail-tags">
-        <span class="chip">${escapeHtml(plugin.compatibility?.penmods || "未声明 PenMods 版本门槛")}</span>
+        <span class="chip">${escapeHtml(formatPenModsCompatibility(plugin.compatibility?.penmods))}</span>
       </div>
       <div class="detail-feature-grid">
         ${renderCapabilityGroup("需要", capabilities.requires)}
@@ -413,8 +440,10 @@ async function loadData() {
 
 elements.searchInput.addEventListener("input", filterPlugins);
 elements.categoryFilter.addEventListener("change", filterPlugins);
-elements.tagFilter.addEventListener("change", filterPlugins);
 elements.themeToggle.addEventListener("click", toggleTheme);
+window.addEventListener("scroll", () => {
+  elements.hero.classList.toggle("is-compact", window.scrollY > 80);
+}, { passive: true });
 window.addEventListener("hashchange", () => {
   state.selectedId = window.location.hash.replace(/^#/, "");
   renderPluginList();

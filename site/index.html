@@ -21,16 +21,15 @@
     <div class="background-glow background-glow-a"></div>
     <div class="background-glow background-glow-b"></div>
     <main class="layout">
-      <section class="hero">
+      <section class="hero" id="hero">
         <div>
           <p class="eyebrow">PenMods Plugin Index</p>
           <h1>插件索引</h1>
-          <p class="hero-subtitle">给 PenMods 生态用的静态插件目录。</p>
+          <p class="hero-subtitle">给 PenMods 生态用的插件目录。</p>
         </div>
         <div class="hero-side">
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换暗色模式">
-            <span class="theme-toggle-icon" aria-hidden="true"></span>
-            <span id="themeToggleText">切换主题</span>
+            <span id="themeToggleText">暗</span>
           </button>
           <p class="hero-copy">
             浏览社区插件，查看分类、兼容性与功能声明，找到适合当前
@@ -55,12 +54,10 @@
             <option value="">全部分类</option>
           </select>
         </label>
-        <label class="filter">
-          <span>标签</span>
-          <select id="tagFilter">
-            <option value="">全部标签</option>
-          </select>
-        </label>
+        <fieldset class="filter tag-filter">
+          <legend>标签</legend>
+          <div class="tag-picker" id="tagFilter"></div>
+        </fieldset>
       </section>
 
       <section class="content">
