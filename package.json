@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "validate": "node ./scripts/validate-registry.mjs",
+    "build:schema": "node ./scripts/build-schema.mjs",
+    "check:schema": "node ./scripts/build-schema.mjs --check",
     "build:data": "node ./scripts/build-registry.mjs",
     "build:site": "node ./scripts/build-site.mjs",
     "build": "npm run validate && npm run build:data && npm run build:site",

@@ -1,0 +1,71 @@
+name: Generate Schema
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/lib/schema-definition.mjs
+      - scripts/build-schema.mjs
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/lib/schema-definition.mjs
+      - scripts/build-schema.mjs
+      - schema/plugin.schema.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate schema
+        run: npm run build:schema
+
+      - name: Commit schema
+        run: |
+          if git diff --quiet -- schema/plugin.schema.json; then
+            echo "Schema already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add schema/plugin.schema.json
+          git commit -m "chore: regenerate plugin schema"
+          git push
+
+  check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check schema is in sync
+        run: npm run check:schema
