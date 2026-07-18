@@ -1,0 +1,38 @@
+id: words_plugins
+kind: plugin
+name: 背单词
+author: Codex
+category: utility
+summary: 支持自定义词库的单词记忆插件。
+description: |
+  支持自定义词库的单词记忆插件，仓库自带部分词库，也可使用脚本添加自定义词库。
+# Optional. Omit this when the project does not have a real icon.
+icon: https://raw.githubusercontent.com/Haikure/words_plugin/main/icon.png
+repo_url: https://github.com/Haikure/words_plugin
+homepage: https://github.com/Haikure/words_plugin
+download_url: https://github.com/Haikure/words_plugin/releases/latest
+releases_url: https://github.com/Haikure/words_plugin/releases
+version: vmain
+source_available: true
+visibility: public
+distribution:
+  type: github-release
+  url: https://github.com/Haikure/words_plugin/releases/latest
+  notes: Public release page for the plugin package.
+update:
+  strategy: direct
+  requires_restart: false
+  notes: Regular plugins can usually be installed directly.
+verified: true
+tags:
+  - utility
+compatibility:
+  capabilities:
+    requires:
+      - capability:plugin-loader
+dependencies:
+  required:
+    - id: lyrecoul.penmods
+      capabilities:
+        - capability:plugin-loader
+      reason: Requires the PenMods runtime and plugin loading environment.
