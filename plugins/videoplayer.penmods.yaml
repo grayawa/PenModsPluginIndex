@@ -1,0 +1,31 @@
+id: videoplayer.penmods
+kind: plugin
+name: 视频播放器
+author: VideoPlayer
+category: utility
+summary: PenMods 的 MPV 视频播放器
+description: |
+  PenMods 的 MPV 视频播放器，支持硬解
+repo_url: https://github.com/Haikure/mpv_pen
+homepage: https://github.com/Haikure/mpv_pen
+download_url: https://github.com/Haikure/mpv_pen/releases/latest
+releases_url: https://github.com/Haikure/mpv_pen/releases
+version: 1.0.1
+source_available: true
+visibility: public
+distribution:
+  type: github-release
+  url: https://github.com/Haikure/mpv_pen/releases/latest
+  notes: Public release page for the plugin package.
+update:
+  strategy: direct
+  requires_restart: false
+  notes: Regular plugins can usually be installed directly.
+verified: false
+tags:
+  - utility
+  - videoplayer
+compatibility:
+  capabilities:
+provides:
+  - capability:videoplayer
